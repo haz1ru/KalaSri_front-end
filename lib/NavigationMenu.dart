@@ -1,29 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-class NavigationMenu extends StatelessWidget {
+class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
+
+  @override
+  _NavigationMenuState createState() => _NavigationMenuState();
+}
+
+class _NavigationMenuState extends State<NavigationMenu> {
+  int selectedIndex = 0; // Define the state variable
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        destinations: [
-          const NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-          const NavigationDestination(
-              icon: Icon(Icons.store), label: "Market Place"),
+        height: 80,
+        elevation: 0,
+        backgroundColor: const Color.fromARGB(255, 105, 205, 236),
+        selectedIndex: selectedIndex,  // Use the local state variable
+        onDestinationSelected: (index) {
+          setState(() {
+            selectedIndex = index;  // Update the state when user selects an item
+          });
+        },
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+          NavigationDestination(icon: Icon(Icons.store), label: "Market Place"),
           NavigationDestination(
-            icon: Container(
-              margin: const EdgeInsets.only(top: 20), // Adds top margin
-              child: const Icon(Icons.add_circle_outline, size: 50),
+            icon: Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Icon(Icons.add_circle_outline, size: 50),
             ),
             label: '',
           ),
-          const NavigationDestination(
-              icon: Icon(Icons.local_shipping), label: "Orders"),
-          const NavigationDestination(
-              icon: Icon(Icons.account_circle), label: "Profile"),
+          NavigationDestination(icon: Icon(Icons.local_shipping), label: "Orders"),
+          NavigationDestination(icon: Icon(Icons.account_circle), label: "Profile"),
         ],
+      ),
+      body: Center(
+        child: Text('Selected Index: $selectedIndex'), // Display the selected tab
       ),
     );
   }
